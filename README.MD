@@ -143,3 +143,7 @@ docker exec -it messageproject-db-1 psql -U postgres -d messages -c "SELECT * FR
 docker-compose logs -f web
 ```
 
+###.env###
+
+Благодаря POSTGRES_DB=messages база messages создаётся автоматически
+POSTGRES_USER и тд нужно прописать в конфигурационном файле .env
