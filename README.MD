@@ -30,6 +30,7 @@ docker-compose up --build
 
 ## Архитектура проекта
 
+```
 MessageProject/
 │── Controllers/         # REST API контроллеры
 │   ├── MessageController.cs  # API для работы с сообщениями
@@ -61,7 +62,7 @@ MessageProject/
 │── Dockerfile           # Docker-образ приложения
 ├── init.sql              # Инициализация БД (автоматическое создание таблицы messages)
 │── docker-compose.yml   # Контейнеризация сервиса
-
+```
 
 ## API (REST + WebSocket)
 
@@ -143,7 +144,7 @@ docker exec -it messageproject-db-1 psql -U postgres -d messages -c "SELECT * FR
 docker-compose logs -f web
 ```
 
-###.env###
+### .env
 
-Благодаря POSTGRES_DB=messages база messages создаётся автоматически
+Благодаря POSTGRES_DB=messages база messages создаётся автоматически, 
 POSTGRES_USER и тд нужно прописать в конфигурационном файле .env
