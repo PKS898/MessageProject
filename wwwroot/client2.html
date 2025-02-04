@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Message Receiver</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/messagehub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        // Регистрация обработчика ПЕРЕД connection.start()
+        connection.on("ReceiveMessage", (seq, text, timestamp) => {
+            console.log("Received message from server:", seq, text, new Date(timestamp).toLocaleTimeString());
+
+            const messagesDiv = document.getElementById("messages");
+            const msg = document.createElement("p");
+            msg.innerHTML = `<strong>#${seq}</strong> [${new Date(timestamp).toLocaleTimeString()}]: ${text}`;
+            messagesDiv.appendChild(msg);
+        });
+
+        connection.onclose(async () => {
+            console.log("WebSocket connection lost. Reconnecting...");
+            await connection.start();
+            console.log("Reconnected to SignalR.");
+        });
+
+        connection.start()
+            .then(() => {
+                console.log("SignalR connected");
+                console.log("WebSocket event handlers:", connection.handlers ? Object.keys(connection.handlers) : "No handlers found");
+            })
+            .catch(err => console.error("SignalR connection error:", err));
+
+    </script>
+</head>
+<body>
+    <h2>Received Messages</h2>
+    <div id="messages"></div>
+</body>
+</html>
